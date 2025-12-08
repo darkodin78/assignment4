@@ -1,0 +1,16 @@
+FROM fedora:latest
+
+# Upgrade system and install packages
+RUN dnf upgrade -y && \
+    dnf install -y httpd
+
+# Copy the HTML file into the web server directory
+COPY data/myinfo.html /var/www/html/myinfo.html
+# Copy the data folder into the web server directory
+COPY data /var/www/html/data
+
+# Expose port 80
+EXPOSE 80
+
+# Run httpd in foreground at boot
+CMD ["httpd", "-D", "FOREGROUND"]
