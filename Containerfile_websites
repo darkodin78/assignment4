@@ -1,0 +1,29 @@
+FROM fedora:latest AS base
+
+# Upgrade system and install httpd
+RUN dnf upgrade -y && \
+    dnf install -y httpd
+
+# Expose port 80
+EXPOSE 80
+
+# Set entrypoint
+CMD ["httpd", "-D", "FOREGROUND"]
+
+# First image - website 1
+FROM base AS website1
+
+# Copy website1.html
+COPY website1.html /var/www/html/
+
+# Label the image
+LABEL website="1"
+
+# Second image - website 2
+FROM base AS website2
+
+# Copy website2.html
+COPY website2.html /var/www/html/
+
+# Label the image
+LABEL website="2"
